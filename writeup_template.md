@@ -69,9 +69,12 @@ T0_EE = T0_1* T1_2* T2_3* T3_4*T4_5* T5_6*T6_EE
 Kuka arm falls into the spehrical wrist special case where joint 5 is the common intersection point hence our wrist center (Joint 4, 5 and  joint 6 are revolute joints)  as a result we can decouple this problem into position and orientation kinematics.
 
 The below steps were taken:
+
 Step 1: Create DH Parameter table (see above)
+
 Step 2: Calculate the wrist center relative to the base frame. 
-When we example the parameter diagram we can see it is a simple translation along the z axis and can be give as below.
+
+When we examine the parameter diagram we can see it is a simple translation along the z axis and can be give as below.
 ```python
     #px, py, pz are the enf effector positions
     EE = Matrix([[px],[py], [pz]])
@@ -91,6 +94,7 @@ where ROT-EE is the rotation matrix from the x to the y to the z extrinsic
 ![alt text][image2]
 
 Step 3: 
+
 Now that we have the wrist center theta1 can be easily gotten as below:
 ```python
 		theta1 = atan2(WC[1],WC[0])
@@ -114,7 +118,9 @@ Using the above image we can now readily get theta2 and theta3 with the help of 
 		theta2 = pi/2 - angle_a - atan2(side1,side_r)
 		theta3 = pi/2 -(angle_b+0.036)
 ```
-Step 4 calculate the homogenous transform of joint 1 to 3 this result will then be used to get homogenous transform from joint 3 to 6 whose euler angles can be used to find the remaining theta
+Step 4:
+
+calculate the homogenous transform of joint 1 to 3 this result will then be used to get homogenous transform from joint 3 to 6 whose euler angles can be used to find the remaining theta
 
 ```python
 		R0_3 = T0_1[0:3, 0:3]* T1_2[0:3, 0:3]* T2_3[0:3, 0:3]
@@ -123,7 +129,9 @@ Step 4 calculate the homogenous transform of joint 1 to 3 this result will then 
     
 ```
 
-Step 5: We can find theta4, theta5, theat6 using euler angles
+Step 5:
+
+We can find theta4, theta5, theat6 using euler angles
 
 ```python
     theta4 = atan2(-R3_6[2,2], R3_6[0,2])
