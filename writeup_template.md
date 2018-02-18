@@ -80,7 +80,7 @@ Step 2: Calculate the wrist center relative to the base frame.
 
 When we examine the parameter diagram we can see it is a simple translation along the z axis and can be give as below.
 ```python
-    #px, py, pz are the enf effector positions
+    #px, py, pz are the end effector positions
     EE = Matrix([[px],[py], [pz]])
     WC = EE - (0.303) * ROT_EE[:,2]
 ```
