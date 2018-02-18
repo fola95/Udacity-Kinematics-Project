@@ -19,6 +19,14 @@ from mpmath import *
 from sympy import *
 
 
+# Define Modified DH Transformation matrix
+def TF_Matrix(alpha, a, d, q):
+	TF = Matrix([[cos(q), -sin(q), 0, a],
+	[sin(q)*cos(alpha), cos(q)*cos(alpha), -sin(alpha), -sin(alpha)*d], 
+	[sin(q)*sin(alpha), cos(q)*sin(alpha), cos(alpha), cos(alpha)*d], 
+	[0, 0, 0, 1]])
+	return TF
+
 def handle_calculate_IK(req):
     rospy.loginfo("Received %s eef-poses from the plan" % len(req.poses))
     if len(req.poses) < 1:
@@ -43,13 +51,7 @@ def handle_calculate_IK(req):
 			alpha5: -pi/2., a5: 0 , d6:0,  q6:q6,
 			alpha6: 0, a6: 0 , d7:0.303,  q7:0}
 	
-	# Define Modified DH Transformation matrix
-	def TF_Matrix(alpha, a, d, q):
-		TF = Matrix([[cos(q), -sin(q), 0, a],
-		[sin(q)*cos(alpha), cos(q)*cos(alpha), -sin(alpha), -sin(alpha)*d], 
-		[sin(q)*sin(alpha), cos(q)*sin(alpha), cos(alpha), cos(alpha)*d], 
-		[0, 0, 0, 1]])
-		return TF
+
 	
 	# Create individual transformation matrices
 	T0_1 = TF_Matrix(alpha0, a0, d1, q1).subs(DH_Table)
@@ -140,6 +142,7 @@ def handle_calculate_IK(req):
 		R3_6 = R0_3.T * ROT_EE
 
 		theta5 = atan2(sqrt(R3_6[0,2]*R3_6[0,2] + R3_6[2,2]*R3_6[2,2]), R3_6[1,2])
+
 		
 		if theta5>pi:
 			theta4 = atan2(-R3_6[2,2], R3_6[0,2])
@@ -150,14 +153,14 @@ def handle_calculate_IK(req):
 				
 		###
 
-		rospy.loginfo("thetas: 1- %s 2- %s 3- %s 4- %s 5- %s 6- %s:", theta1, theta2, theta3, theta4, theta5, theta6)
+		#rospy.loginfo("thetas: 1- %s 2- %s 3- %s 4- %s 5- %s 6- %s:", theta1, theta2, theta3, theta4, theta5, theta6)
  		# Populate response for the IK request
 		# In the next line replace theta1,theta2...,theta6 by your joint angle variables
 		joint_trajectory_point.positions = [theta1, theta2, theta3, theta4, theta5, theta6]
 		joint_trajectory_list.append(joint_trajectory_point)
 
-		rospy.loginfo("length of Joint Trajectory List: %s" % len(joint_trajectory_list))
- 		return CalculateIKResponse(joint_trajectory_list)
+	rospy.loginfo("length of Joint Trajectory List: %s" % len(joint_trajectory_list))
+ 	return CalculateIKResponse(joint_trajectory_list)
 
 
 def IK_server():
