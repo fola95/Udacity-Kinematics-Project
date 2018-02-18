@@ -143,9 +143,9 @@ We can find theta4, theta5, theat6 using euler angles
 
 ### Project Implementation
 
-#### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
+#### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis.  
 This code follows the steps discussed in the kinematic analysis. 
 [code can be found here](https://github.com/fola95/Udacity-Kinematics-Project/blob/master/kuka_arm/scripts/IK_server.py)
-![alt text][image3]
 
+In general this project was not the most intuitive but it made sense in the end. I tried to pick the best theta4 and theta6 angles given the theta5 angles
 
