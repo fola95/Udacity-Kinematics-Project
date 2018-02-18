@@ -36,7 +36,9 @@ You're reading it!
 
 Below is the DH Parameter table and its derivation
 
-https://docs.google.com/viewer?url=http://example.com/file.pdf
+[DHImage]: ./udacityDHderivation-FolawiyoCampbell-1.png
+![alt text][DHImage]
+
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 We need to create individual transforms before performing homogeneous transformation.
