@@ -39,6 +39,8 @@ Below is the DH Parameter table and its derivation
 [DHImage]: ./udacityDHderivation-FolawiyoCampbell-1.png
 ![alt text][DHImage]
 
+I made use of the kr210.urdf.xacro urdf file to derive the link lengths which helped in filling in di and ai
+
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 We need to create individual transforms before performing homogeneous transformation.
