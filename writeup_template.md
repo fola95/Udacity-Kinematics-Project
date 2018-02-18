@@ -78,7 +78,7 @@ When we examine the parameter diagram we can see it is a simple translation alon
 ```python
     #px, py, pz are the enf effector positions
     EE = Matrix([[px],[py], [pz]])
-		WC = EE - (0.303) * ROT_EE[:,2]
+    WC = EE - (0.303) * ROT_EE[:,2]
 ```
 
 where ROT-EE is the rotation matrix from the x to the y to the z extrinsic
@@ -142,10 +142,8 @@ We can find theta4, theta5, theat6 using euler angles
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
-
-
-
-And just for fun, another example image:
+This code follows the steps discussed in the kinematic analysis. 
+[code can be found here](https://github.com/fola95/Udacity-Kinematics-Project/blob/master/kuka_arm/scripts/IK_server.py)
 ![alt text][image3]
 
 
