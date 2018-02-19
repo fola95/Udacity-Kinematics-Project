@@ -189,7 +189,7 @@ If I could do more improvements to the project:
 1. I would make use of the pickle library to preload resusable matrices for the next call of the main loop
 
 Challenges I faced:
-1. I initially had some issues with the bool c++ error where it said cannot convert to bool, given these were ROS generated files it was a little strange, so I had to go in and make the below update
+1. I initially had some issues with the bool c++ error where it said cannot convert to bool, given these were ROS generated files it was a little strange, so I had to go in and make updates of the form below:
 ```
 success = move_group.move()
 // was changed to 
