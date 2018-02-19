@@ -66,8 +66,28 @@ def handle_calculate_IK(req):
 	
 	
 	# Extract rotation matrices from the transformation matrices
+	#we are going to use this to for step 3 which is to get the Wrist Center coordinates. We need r,p,y to first 
+	#calculate the end effector relative to the base link
+	r, p, y = symbols('r p y')
 
-	
+	ROT_x = Matrix([[1, 0, 0],
+		[0, cos(r), -sin(r)],
+		[0, sin(r), cos(r)]])
+
+	ROT_y = Matrix([[cos(p), 0, sin(p)],
+		[0, 1, 0],
+		[-sin(p), 0, cos(p)]])
+
+	ROT_z = Matrix([[cos(y), -sin(y), 0],
+		[sin(y), cos(y), 0],
+		[0, 0, 1]])
+
+	ROT_EE = ROT_z * ROT_y * ROT_x
+
+	# Compensate for rotation discrepancy between DH parameters and Gazebo
+	ROT_Error = ROT_z.subs(y, pi)* ROT_y.subs(p, -pi/2)
+	ROT_EE = ROT_EE * ROT_Error
+		
         ###
 
 # Initialize service response
@@ -84,34 +104,8 @@ def handle_calculate_IK(req):
 		pz = req.poses[x].position.z
 
 		(roll, pitch, yaw) = tf.transformations.euler_from_quaternion([req.poses[x].orientation.x, req.poses[x].orientation.y, req.poses[x].orientation.z, req.poses[x].orientation.w])
-		
-
-	#we are going to use this to for step 3 which is to get the Wrist Center coordinates. We need r,p,y to first 
-	#calculate the end effector relative to the base link
-		r, p, y = symbols('r p y')
-
-		ROT_x = Matrix([[1, 0, 0],
-			[0, cos(r), -sin(r)],
-			[0, sin(r), cos(r)]])
-
-		ROT_y = Matrix([[cos(p), 0, sin(p)],
-			[0, 1, 0],
-			[-sin(p), 0, cos(p)]])
-
-		ROT_z = Matrix([[cos(y), -sin(y), 0],
-			[sin(y), cos(y), 0],
-			[0, 0, 1]])
-
-		ROT_EE = ROT_z * ROT_y * ROT_x
-	
-
-		 
- 		### Your IK code here
-		# Compensate for rotation discrepancy between DH parameters and Gazebo
-		ROT_Error = ROT_z.subs(y, pi)* ROT_y.subs(p, -pi/2)
-		ROT_EE = ROT_EE * ROT_Error
 		ROT_EE = ROT_EE.subs({'r': roll, 'p': pitch, 'y':yaw})
-
+		
 		EE = Matrix([[px],[py], [pz]])
 		
 		#wrist center calculation done
@@ -122,7 +116,7 @@ def handle_calculate_IK(req):
 		# Calculate joint angles using Geometric IK method
 		theta1 = atan2(WC[1],WC[0])
 
-		side_a =1.501
+		side_a = 1.501
 		side_c = 1.25
 
 		side1 = WC[2]-0.75
@@ -153,7 +147,7 @@ def handle_calculate_IK(req):
 				
 		###
 
-		#rospy.loginfo("thetas: 1- %s 2- %s 3- %s 4- %s 5- %s 6- %s:", theta1, theta2, theta3, theta4, theta5, theta6)
+		rospy.loginfo("thetas: 1- %s 2- %s 3- %s 4- %s 5- %s 6- %s:", theta1, theta2, theta3, theta4, theta5, theta6)
  		# Populate response for the IK request
 		# In the next line replace theta1,theta2...,theta6 by your joint angle variables
 		joint_trajectory_point.positions = [theta1, theta2, theta3, theta4, theta5, theta6]
