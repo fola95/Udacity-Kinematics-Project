@@ -149,5 +149,51 @@ We can find theta4, theta5, theat6 using euler angles
 This code follows the steps discussed in the kinematic analysis. 
 [code can be found here](https://github.com/fola95/Udacity-Kinematics-Project/blob/master/kuka_arm/scripts/IK_server.py)
 
-In general this project was not the most intuitive but it made sense in the end. I tried to pick the best theta4 and theta6 angles given the theta5 angles
+[ableToGrab]: ./misc_images/armAbleToGrab.png
+Results of the Inverse kinematics run after demo flag is set to false:
+
+Arm is able to grab target object-
+![alt text][ableToGrab]
+
+Arm takes planned path to approach drop off -
+
+[approach]: ./misc_images/approachingDropOff.png
+
+![alt text][approach]
+
+Arm arrives drop off -
+
+[arrive]: ./misc_images/arrivedDropOff.png
+
+![alt text][arrive]
+
+Arm performs dropping -
+
+[drop]: ./misc_images/droppingCylinder.png
+
+![alt text][drop]
+
+Arm drops cylinder in bin and is ready to return - 
+
+[ready]: ./misc_images/cylinderDroppedAndReadyToReturn.png
+
+![alt text][ready]
+
+
+To improve the project:
+1. I tried to pick the best theta4 and theta6 angles given the theta5 angles
+2. Remove reusable parts of the code such as DH parameters and Rotation matrices outside of the main loop.
+3. I used the transpose instead of the inverse to calculate the rotation matrix for theta4, 5, 6
+
+If I could do more improvements to the project:
+1. I would make use of the pickle library to preload resusable matrices for the next call of the main loop
+
+Challenges I faced:
+1. I initially had some issues with the bool c++ error where i it said cannot convert to bool, given these were ROS generated files it was a little strange, so I had to go in and make the below update
+```
+success = move_group.move()
+// was changed to 
+
+success = static_cast<bool>(move_group.move())
+```
 
